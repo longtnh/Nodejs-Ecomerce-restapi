@@ -1,9 +1,17 @@
 const Product = require("../models/Product")
 
 const getAll = async (req, res) => {
+  const page = parseInt(req.query.page) || 1
+  const pageSize = parseInt(req.query.pageSize) || 5
   try {
-    const productList = await Product.find()
-    res.status(200).json(productList)
+    const productList = await Product.find().skip((page - 1) * pageSize).limit(pageSize)
+    const countAll = await Product.countDocuments({})
+    res.status(200).json({
+      total: countAll,
+      page: page,
+      pageSize: productList.length,
+      products: productList
+    })
   }
   catch(err) {
     res.status(500).json(err)
@@ -24,7 +32,7 @@ const create = async (req, res) => {
   const newProduct = new Product({
     title: req.body.title,
     desc: req.body.desc,
-    img: req.file.path,
+    img: req.file.filename,
     size: req.body.size,
     color: req.body.color,
     price: req.body.price
@@ -43,7 +51,7 @@ const update = async (req, res) => {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
       desc: req.body.desc,
-      img: req.file.path,
+      img: req.file.filename,
       size: req.body.size,
       color: req.body.color,
       price: req.body.price

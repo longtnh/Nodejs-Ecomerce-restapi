@@ -33,10 +33,19 @@ const createOrder = async (req, res) => {
   }
 }
 
+//admin
 const getAllOrder = async (req, res) => {
+  const page = parseInt(req.query.page) || 1
+  const pageSize = parseInt(req.query.pageSize) || 5
   try {
-    const orderList = await Order.find()
-    res.status(200).json(orderList)
+    const orderList = await Order.find().skip((page - 1) * pageSize).limit(pageSize)
+    const countOrder = await Order.countDocuments({})
+    res.status(200).json({
+      total: countOrder,
+      page: page,
+      pageSize: orderList.length,
+      products: orderList
+    })
   }
   catch(err) {
     res.status(500).json(err)
@@ -54,9 +63,17 @@ const getDetailOrder = async (req, res) => {
 }
 
 const getHistoryOrderUser = async (req, res) => {
+  const page = parseInt(req.query.page) || 1
+  const pageSize = parseInt(req.query.pageSize) || 5
   try {
-    const oderList = await Order.find({userId: req.user.id})
-    res.status(200).json(oderList)
+    const orderList = await Order.find({userId: req.user.id}).skip((page - 1) * pageSize).limit(pageSize)
+    const countOrder = await Order.countDocuments({userId: req.user.id})
+    res.status(200).json({
+      total: countOrder,
+      page: page,
+      pageSize: orderList.length,
+      products: orderList
+    })
   }
   catch(err) {
     res.status(500).json(err)

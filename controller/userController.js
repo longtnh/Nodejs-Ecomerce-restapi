@@ -29,11 +29,19 @@ const getDetail = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
+  const page = parseInt(req.query.page) || 1
+  const pageSize = parseInt(req.query.pageSize) || 5
   try {
     const users = await User.find({}, {
       password: 0 
+    }).skip((page - 1) * pageSize).limit(pageSize)
+    const countUsers = await User.countDocuments({})
+    res.status(200).json({
+      total: countUsers,
+      page: page,
+      pageSize: users.length,
+      users: users
     })
-    res.status(200).json(users)
   }
   catch(err) {
     res.status(500).json(err)

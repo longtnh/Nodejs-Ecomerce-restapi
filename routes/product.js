@@ -13,8 +13,10 @@ router.get("/:id", productController.getDetail)
 //create product
 router.post("/", verifyTokenAdmin, uploadImg.uploadImg, productController.create)
 
+//update product
 router.put("/:id", verifyTokenAdmin, uploadImg.uploadImg, productController.update)
 
+//delete product
 router.delete("/:id", verifyTokenAdmin, productController.remove)
 
 module.exports = router

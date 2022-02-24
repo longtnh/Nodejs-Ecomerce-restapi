@@ -16,10 +16,11 @@ mongoose.connect(process.env.MONGO_URL)
     console.log(err)
   })
 
+  //middleware
 app.use(express.json())
+app.use('/product/image', express.static('./assets/image/product'))
 
-app.use('/image', express.static('./assets/image'))
-
+  //router
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRoute)
 app.use("/api/product", productRouter)
