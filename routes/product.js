@@ -1,4 +1,4 @@
-const { verifyToken, verifyTokenAdmin } = require("./verifyToken")
+const { verifyToken, verifyTokenAdmin } = require("../middleware/verifyToken")
 const uploadImg = require("../middleware/uploadFile")
 const productController = require("../controller/productController")
 

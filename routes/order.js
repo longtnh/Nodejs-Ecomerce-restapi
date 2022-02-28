@@ -1,4 +1,4 @@
-const { verifyToken, verifyTokenAdmin } = require("./verifyToken")
+const { verifyToken, verifyTokenAdmin } = require("../middleware/verifyToken")
 const orderController = require("../controller/orderController")
 
 const router = require("express").Router()
