@@ -54,7 +54,7 @@ const getAllOrder = async (req, res) => {
 
 const getDetailOrder = async (req, res) => {
   try {
-    const orderById = await Order.findById(req.params.id)
+    const orderById = await Order.findById(req.params.id).populate('products.productId')
     res.status(200).json(orderById)
   }
   catch(err) {
@@ -72,7 +72,7 @@ const getHistoryOrderUser = async (req, res) => {
       total: countOrder,
       page: page,
       pageSize: orderList.length,
-      products: orderList
+      orders: orderList
     })
   }
   catch(err) {
