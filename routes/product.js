@@ -1,6 +1,8 @@
-const { verifyToken, verifyTokenAdmin } = require("../middleware/verifyToken")
+const { checkAdmin } = require("../middleware/verifyToken")
 const uploadImg = require("../middleware/uploadFile")
 const productController = require("../controller/productController")
+const passport = require("passport")
+const passportConfig = require("../passport/passport")
 
 const router = require("express").Router()
 
@@ -11,12 +13,12 @@ router.get("/", productController.getAll)
 router.get("/:id", productController.getDetail)
 
 //create product
-router.post("/", verifyTokenAdmin, uploadImg.uploadImg, productController.create)
+router.post("/", passport.authenticate("jwt", { session: false }), checkAdmin, uploadImg.uploadImg, productController.create)
 
 //update product
-router.put("/:id", verifyTokenAdmin, uploadImg.uploadImg, productController.update)
+router.put("/:id", passport.authenticate("jwt", { session: false }), checkAdmin, uploadImg.uploadImg, productController.update)
 
 //delete product
-router.delete("/:id", verifyTokenAdmin, productController.remove)
+router.delete("/:id", passport.authenticate("jwt", { session: false }), checkAdmin, productController.remove)
 
 module.exports = router

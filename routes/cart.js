@@ -1,14 +1,19 @@
-const { verifyToken, verifyTokenAdmin } = require("../middleware/verifyToken")
 const cartController = require("../controller/cartController")
+const passport = require("passport")
+const passportConfig = require("../passport/passport")
 
 const router = require("express").Router()
 
-router.get("/", verifyToken, cartController.getCart)
+//get cart
+router.get("/", passport.authenticate("jwt", { session: false }), cartController.getCart)
 
-router.patch("/addToCart/:productId", verifyToken, cartController.addToCart)
+//add to cart
+router.patch("/addToCart/:productId", passport.authenticate("jwt", { session: false }), cartController.addToCart)
 
-router.patch("/increment/:productId", verifyToken, cartController.increment)
+//increment total
+router.patch("/increment/:productId", passport.authenticate("jwt", { session: false }), cartController.increment)
 
-router.patch("/decrement/:productId", verifyToken, cartController.decrement)
+//decrement total
+router.patch("/decrement/:productId", passport.authenticate("jwt", { session: false }), cartController.decrement)
 
 module.exports = router

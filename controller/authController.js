@@ -29,13 +29,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username })
-    if(!user) res.status(401).json("Wrong username")
-
-    const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8)
-    const inputPassword = req.body.password
-    if(hashedPassword != inputPassword) res.status(401).json("Wrong Password")
-
+    const user = req.user
     const accessToken = jwt.sign({
       id: user._id,
       isAdmin: user.isAdmin

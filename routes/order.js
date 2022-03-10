@@ -1,14 +1,20 @@
-const { verifyToken, verifyTokenAdmin } = require("../middleware/verifyToken")
+const { checkAdmin } = require("../middleware/verifyToken")
 const orderController = require("../controller/orderController")
+const passport = require("passport")
+const passportConfig = require("../passport/passport")
 
 const router = require("express").Router()
 
-router.post("/", verifyToken, orderController.createOrder)
+//create order
+router.post("/", passport.authenticate("jwt", { session: false }), orderController.createOrder)
 
-router.get("/all", verifyTokenAdmin, orderController.getAllOrder)
+//get all order (admin)
+router.get("/all", passport.authenticate("jwt", { session: false }), checkAdmin, orderController.getAllOrder)
 
-router.get("/history", verifyToken, orderController.getHistoryOrderUser)
+//get user history order
+router.get("/history", passport.authenticate("jwt", { session: false }), orderController.getHistoryOrderUser)
 
-router.get("/:id", verifyToken, orderController.getDetailOrder)
+//get order detail by id
+router.get("/:id", passport.authenticate("jwt", { session: false }), orderController.getDetailOrder)
 
 module.exports = router
