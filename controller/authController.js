@@ -43,4 +43,20 @@ const login = async (req, res) => {
   }
 }
 
-module.exports = {register, login}
+const googleLogin = async (req, res) => {
+  try {
+    const user = req.user
+    const accessToken = jwt.sign({
+      id: user._id,
+      isAdmin: user.isAdmin
+    }, process.env.JWT_SECRET_KEY)
+    const message = "Login with Google Successfully!"
+
+    res.status(200).json({ message, ...user._doc, accessToken })
+  }
+  catch(err) {
+    res.status(500).json(err)
+  }
+}
+
+module.exports = {register, login, googleLogin}
