@@ -41,13 +41,9 @@ passport.use(new LocalStrategy({
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/api/auth/google/callback"
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
 }, async (accessToken, refreshToken, profile, done) => {
   try {
-    // console.log(accessToken)
-    // console.log(refreshToken)
-    // console.log(profile)
-
     const ExistUser = await User.findOne({ 
       authGoogleId: profile.id, 
       authType: "google" 
@@ -70,4 +66,4 @@ passport.use(new GoogleStrategy({
   }
 
 }
-));
+))
