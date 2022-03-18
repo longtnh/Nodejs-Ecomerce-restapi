@@ -15,4 +15,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 //Google Callback
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login', session: false }), authController.googleLogin)
 
+//verify Account
+router.get('/verify', authController.verify)
+
 module.exports = router

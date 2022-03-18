@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: ["local", "google"],
       default: "local"
-    }
+    },
+    isVerified: { type: Boolean, default: false }
   },
   { timestamps: true }
 )

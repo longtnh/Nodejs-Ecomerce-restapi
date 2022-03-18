@@ -6,6 +6,7 @@ const { ExtractJwt } = require("passport-jwt")
 const CryptoJS = require("crypto-js")
 const dotenv = require("dotenv").config()
 const User = require("../models/User")
+const Cart = require("../models/Cart")
 
 passport.use(new JwtStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken("Authorization"),
@@ -54,10 +55,18 @@ passport.use(new GoogleStrategy({
       username: profile.displayName,
       email: profile.emails[0].value,
       authGoogleId: profile.id,
-      authType: "google"
+      authType: "google",
+      isVerified: true
     })
 
     await newUser.save()
+
+    //create new cart
+    const newCart = new Cart({
+      userId : newUser._id,
+      products: []
+    })
+    await newCart.save()
 
     done(null, newUser)
   }
