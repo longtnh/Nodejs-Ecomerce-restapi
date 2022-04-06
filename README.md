@@ -12,8 +12,7 @@ NodeJS E-Commerce RestAPI
 # Running the app
 `npm run start`
 # Note
-Create file ".env"
-Add environment variables to .env file like this
+Create file ".env" and add environment variables to .env file like this
 ```
 MONGO_URL = <YOUR_MONGODB_URL>
 SECRET_KEY = <YOUR_SECRET_KEY>
