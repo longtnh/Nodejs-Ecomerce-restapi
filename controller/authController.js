@@ -14,6 +14,7 @@ const register = async (req, res) => {
   try {
     const savedUser = await newUser.save()
 
+    //Send Email verification
     const token_mail_verification = jwt.sign({
       id: newUser._id,
       isAdmin: newUser.isAdmin
@@ -23,7 +24,7 @@ const register = async (req, res) => {
 
     mail.sendEmail(newUser.email, 'Account Verification', '<p>Click the link below to verify your account!</p><br>' + url)
 
-    //create new cart
+    //create cart for this User when new User is created
     const newCart = new Cart({
       userId : newUser._id,
       products: []

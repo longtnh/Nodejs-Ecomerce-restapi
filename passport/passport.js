@@ -61,7 +61,7 @@ passport.use(new GoogleStrategy({
 
     await newUser.save()
 
-    //create new cart
+    //create cart for this User when new User is created
     const newCart = new Cart({
       userId : newUser._id,
       products: []

@@ -1,3 +1,4 @@
+//Each user have one cart in DB, User 'Add to cart, decrement, increment stock' will modified their cart. When User checkout (Create Order) success, clear all item in their Cart
 const Cart = require("../models/Cart")
 
 const getCart = async (req, res) => {
@@ -25,7 +26,6 @@ const addToCart = async (req, res) => {
     else {
       productInCart.quantity += 1
     }
-    // console.log(userCart)
     const newCart = await Cart.findOneAndUpdate({userId: req.user.id}, {
       $set: userCart
     },
